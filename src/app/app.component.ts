@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { VKService } from './vk.service';
 
 @Component({
@@ -8,8 +9,7 @@ import { VKService } from './vk.service';
 })
 export class AppComponent {
   title: string;
-  constructor(){   
-      
-      
+  constructor(){       
+      this.title = "Common friends"; 
   }
 }

@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { VkServiceService } from './vk-service.service';
+import { VKService} from './vk.service';
 
 describe('VkServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [VkServiceService]
+      providers: [VKService]
     });
   });
 
-  it('should ...', inject([VkServiceService], (service: VkServiceService) => {
+  it('should ...', inject([VKService], (service: VKService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -4,10 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { UserInputComponent } from './user-input.component';
+import { FriendsIntersectionComponent } from './friends-intersection.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserInputComponent,
+    FriendsIntersectionComponent
   ],
   imports: [
     BrowserModule,
