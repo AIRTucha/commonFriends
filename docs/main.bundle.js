@@ -55,27 +55,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var AppComponent = (function () {
     function AppComponent() {
-        VK.api('friends.get', {
-            user_id: window.location.href.split('&').find(function (v) { return v.includes('viewer_id'); }).split('=')[1],
-            order: "hint",
-            fields: "photo_50"
-        }, function (r) {
-            console.log("friends");
-            console.log(r.response);
-        });
-        VK.api('users.search', { q: "am" }, function (r) {
-            console.log("search");
-            console.log(r.response);
-        });
-        // VK.init(function() { 
-        //     VK.api('users.get', {"user_ids": 1}, function(r) {
-        //         console.log(r.response[0].first_name);
-        //         this.title = r.response[0].first_name;     
-        //     });
-        // }, function() { 
-        //    // API initialization failed 
-        //    // Can reload page here 
-        // }, '5.60');
     }
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
