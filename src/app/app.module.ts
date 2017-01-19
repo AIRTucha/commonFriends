@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { VKService } from './vk.service';
 import { UserInputComponent } from './user-input.component';
 import { FriendsIntersectionComponent } from './friends-intersection.component';
 
@@ -18,7 +19,7 @@ import { FriendsIntersectionComponent } from './friends-intersection.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [VKService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,7 +11,7 @@ export class VKService {
      * @param - user id
      * @return - array of friends with brief data
      */
-    getFriends(id: string): Promise<any>{
+    static getFriends(id: string): Promise<any>{
       return new Promise(resolve => 
         VK.api('friends.get', {
             user_id: id, 
@@ -27,20 +27,21 @@ export class VKService {
     /**
      * @param - current user id
      */
-    getId(): string {
+    static getId(): string {
       return window.location.href.split('&').find((v) => v.includes('viewer_id')).split('=')[1];
     }
 
     /**
      * @param - user id
-     * @return - 
-     * { id: string,
+     * @return - user information
+     * { 
+        id: string,
         first_name: string,
         last_name: string,
         photo_50: string_url 
       } 
      */
-    getUsers(id: string): Promise<any>{
+    static getUsers(id: string): Promise<any>{
       return new Promise(resolve =>
        VK.api('users.get', 
         {"user_ids": id},
