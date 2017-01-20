@@ -1,4 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
+import { User } from './user';
 
 @Component({
   selector: 'user-input',
@@ -6,10 +7,9 @@ import { Input, Component, OnInit } from '@angular/core';
 })
 export class UserInputComponent implements OnInit {
   @Input()
-  friends : Array<string>;
+  friends : Array<User>;
   constructor() { }
 
   ngOnInit() {
-    this.friends.push("test" + this.friends.length);
   }
 }

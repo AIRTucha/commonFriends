@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { User } from './user';
 
 declare var VK: any;
 
@@ -11,16 +12,15 @@ export class VKService {
      * @param - user id
      * @return - array of friends with brief data
      */
-    static getFriends(id: string): Promise<any>{
+    static getFriends(id: string): Promise<Array<User>>{
       return new Promise(resolve => 
         VK.api('friends.get', {
             user_id: id, 
-            order:"hint",
-            fields:"photo_50"
+            order: "hint",
+            fields: "photo_50"
           }, function(r) {
-            resolve(id);
-            console.log(r.response);  
-        })
+            resolve(r.response.map( v => { new User(v.id, v.first_name, v.last_name, v.photo_50) })); 
+          })
       );
     }
 
@@ -41,12 +41,22 @@ export class VKService {
         photo_50: string_url 
       } 
      */
-    static getUsers(id: string): Promise<any>{
+    static getUsers(id: string): Promise<User>{
       return new Promise(resolve =>
        VK.api('users.get', 
-        {"user_ids": id},
+        {
+          user_ids: id,
+          fields:"photo_50"
+        },
         function(r) {
-                resolve(r.response[0]);    
+                resolve(
+                  new User(
+                    r.response[0].id, 
+                    r.response[0].first_name, 
+                    r.response[0].last_name, 
+                    r.response[0].photo_50
+                    )
+                  );    
         })
       );
      

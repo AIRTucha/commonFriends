@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { VKService } from './vk.service';
 import { UserInputComponent } from './user-input.component';
 import { FriendsIntersectionComponent } from './friends-intersection.component';
+import { ActiveUsersListComponent } from './active-users-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserInputComponent,
-    FriendsIntersectionComponent
+    FriendsIntersectionComponent,
+    ActiveUsersListComponent
   ],
   imports: [
     BrowserModule,
