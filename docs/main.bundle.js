@@ -335,6 +335,10 @@ var UserInputComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return User; });
 var User = (function () {
     function User(id, firstName, lastName, photoUrl) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.photoUrl = photoUrl;
     }
     return User;
 }());
