@@ -39,9 +39,8 @@ export class VKService {
             user_id: id, 
             order: "hint",
             fields: "photo_50"
-          }, function(r) {
-            console.log(r.response);
-            
+          }, 
+          r => {
             resolve(r.response.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) )); 
           })
       );
@@ -71,16 +70,15 @@ export class VKService {
           user_ids: id,
           fields:"photo_50"
         },
-        function(r) {
-                console.log(r.response[0]);
-                resolve(                  
-                  new User(
-                    r.response[0].uid, 
-                    r.response[0].first_name, 
-                    r.response[0].last_name, 
-                    r.response[0].photo_50
-                    )
-                  );    
+        r => {
+          resolve(                  
+            new User(
+              r.response[0].uid, 
+              r.response[0].first_name, 
+              r.response[0].last_name, 
+              r.response[0].photo_50
+              )
+            );    
         })
       );
      

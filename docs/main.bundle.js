@@ -26,14 +26,33 @@ var VKService = (function () {
      * @return - array of friends with brief data
      */
     VKService.getFriends = function (id) {
+        // let users: Array<any> = [
+        //   {
+        //     first_name : "Артем",
+        //     last_name : "Матюшевский",
+        //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
+        //     uid : 333423
+        //   },
+        //   {
+        //     first_name : "Nancy",
+        //     last_name : "Novikova",
+        //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
+        //     uid : 1366377
+        //   },
+        //   {
+        //     first_name : "Кайрат",
+        //     last_name : "Сагинаев",
+        //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
+        //     uid : 1442924
+        //   },
+        // ]
         return new Promise(function (resolve) {
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
                 fields: "photo_50"
             }, function (r) {
-                console.log(r.response);
-                resolve(r.response.map(function (v) { new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.id, v.first_name, v.last_name, v.photo_50); }));
+                resolve(r.response.map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
             });
         });
     };
@@ -59,8 +78,7 @@ var VKService = (function () {
                 user_ids: id,
                 fields: "photo_50"
             }, function (r) {
-                console.log(r.response[0]);
-                resolve(new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](r.response[0].id, r.response[0].first_name, r.response[0].last_name, r.response[0].photo_50));
+                resolve(new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](r.response[0].uid, r.response[0].first_name, r.response[0].last_name, r.response[0].photo_50));
             });
         });
     };
@@ -424,7 +442,7 @@ var environment = {
 /***/ 609:
 /***/ function(module, exports) {
 
-module.exports = "<ul>\n  <li *ngFor=\"let activeUser of activeUsers\"><img src=\"{{activeUser.photoUrl}}\"/><span>{{activeUser.firstName + \" \" + activeUser.lastName}}</span></li>\n</ul>"
+module.exports = "<div *ngFor=\"let activeUser of activeUsers\"><img src=\"{{activeUser.photoUrl}}\"/><span>{{activeUser.firstName + \" \" + activeUser.lastName}}</span></div>\n"
 
 /***/ },
 
