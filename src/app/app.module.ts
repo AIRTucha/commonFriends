@@ -9,6 +9,8 @@ import { UserInputComponent } from './user-input.component';
 import { FriendsIntersectionComponent } from './friends-intersection.component';
 import { ActiveUsersListComponent } from './active-users-list.component';
 import { UsersListComponent } from './users-list.component';
+import { FilterUsersPipe } from './filter-users.pipe';
+import { SortUsersPipe } from './sort-users.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { UsersListComponent } from './users-list.component';
     UserInputComponent,
     FriendsIntersectionComponent,
     ActiveUsersListComponent,
-    UsersListComponent
+    UsersListComponent,
+    FilterUsersPipe,
+    SortUsersPipe
   ],
   imports: [
     BrowserModule,

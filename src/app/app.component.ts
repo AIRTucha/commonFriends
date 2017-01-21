@@ -8,8 +8,10 @@ import { User } from './user';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit{
-  users: Array<User> = [];
-  selectedUsers: Array<User> = [];
+  users         : Array<User> = [];
+  possibleUsers : Array<User> = [];
+  selectedUsers : Array<User> = [];
+
   selectUser = (user: User) => this.swapUser(this.users, this.selectedUsers, user);
   deleteUser = (user: User) => this.swapUser(this.selectedUsers, this.users, user);
   

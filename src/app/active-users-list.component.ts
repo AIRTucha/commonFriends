@@ -6,6 +6,6 @@ import { User } from './user';
   templateUrl: './active-users-list.component.html'
 })
 export class ActiveUsersListComponent{
-  @Input() activeUsers : Array<User>;
+  @Input() users : Array<User>;
   @Input() deleteUser  : (user: User) => void;  
 }

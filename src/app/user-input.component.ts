@@ -6,6 +6,8 @@ import { User } from './user';
   templateUrl: './user-input.component.html'
 })
 export class UserInputComponent {
-  @Input() friends    : Array<User>;
+  @Input() users   : Array<User>;
   @Input() selectUser : (user: User) => void; 
+  @Input() onInput : (id: string) => void;
+  inputString: string = "";
 }
