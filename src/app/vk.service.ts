@@ -19,6 +19,7 @@ export class VKService {
             order: "hint",
             fields: "photo_50"
           }, function(r) {
+            console.log(r.response);
             resolve(r.response.map( v => { new User(v.id, v.first_name, v.last_name, v.photo_50) })); 
           })
       );
@@ -49,7 +50,8 @@ export class VKService {
           fields:"photo_50"
         },
         function(r) {
-                resolve(
+                console.log(r.response[0]);
+                resolve(                  
                   new User(
                     r.response[0].id, 
                     r.response[0].first_name, 

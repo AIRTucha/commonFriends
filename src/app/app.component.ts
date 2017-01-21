@@ -8,7 +8,7 @@ import { User } from './user';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit{
-  users: Array<User>;
+  users: Array<User> = [];
 
   constructor(){       
   }

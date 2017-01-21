@@ -32,6 +32,7 @@ var VKService = (function () {
                 order: "hint",
                 fields: "photo_50"
             }, function (r) {
+                console.log(r.response);
                 resolve(r.response.map(function (v) { new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.id, v.first_name, v.last_name, v.photo_50); }));
             });
         });
@@ -58,6 +59,7 @@ var VKService = (function () {
                 user_ids: id,
                 fields: "photo_50"
             }, function (r) {
+                console.log(r.response[0]);
                 resolve(new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](r.response[0].id, r.response[0].first_name, r.response[0].last_name, r.response[0].photo_50));
             });
         });
@@ -167,6 +169,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var AppComponent = (function () {
     function AppComponent() {
+        this.users = [];
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
