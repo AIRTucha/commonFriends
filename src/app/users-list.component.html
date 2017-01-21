@@ -1,0 +1,5 @@
+<div *ngFor="let user of users">
+    <img src="{{user.photoUrl}}"/>
+    <span>{{user.firstName + " " + user.lastName}}</span>
+    <span class="{{iconClass}}" aria-hidden="true" (click)="buttonClick(user)"></span>
+</div>

@@ -1,14 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'friends-intersection',
   templateUrl: './friends-intersection.component.html'
 })
-export class FriendsIntersectionComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class FriendsIntersectionComponent {
 
 }

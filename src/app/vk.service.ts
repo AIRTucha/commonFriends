@@ -35,6 +35,7 @@ export class VKService {
       // ]
 
       return new Promise(resolve => 
+     //   resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('friends.get', {
             user_id: id, 
             order: "hint",
@@ -65,6 +66,12 @@ export class VKService {
      */
     static getUsers(id: string): Promise<User>{
       return new Promise(resolve =>
+        // resolve( new User(
+        //         "TestId",//r.response[0].uid, 
+        //         "TestName",//r.response[0].first_name, 
+        //         "TestLastMame",// r.response[0].last_name, 
+        //         "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg"//r.response[0].photo_50
+        //         ))   
        VK.api('users.get', 
         {
           user_ids: id,

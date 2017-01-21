@@ -1,6 +1,3 @@
 <input type="text"/>
 <br/>
-
-<!--<ul>
-  <li *ngFor="let friend of friends"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span>{{friend}}</span></li>
-</ul>-->
+<users-list [users]=friends iconClass="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>

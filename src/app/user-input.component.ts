@@ -1,15 +1,11 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component } from '@angular/core';
 import { User } from './user';
 
 @Component({
   selector: 'user-input',
   templateUrl: './user-input.component.html'
 })
-export class UserInputComponent implements OnInit {
-  @Input()
-  friends : Array<User>;
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class UserInputComponent {
+  @Input() friends    : Array<User>;
+  @Input() selectUser : (user: User) => void; 
 }

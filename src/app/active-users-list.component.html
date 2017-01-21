@@ -1,1 +1,1 @@
-<div *ngFor="let activeUser of activeUsers"><img src="{{activeUser.photoUrl}}"/><span>{{activeUser.firstName + " " + activeUser.lastName}}</span></div>
+<users-list [users]=activeUsers iconClass="glyphicon glyphicon-remove" [buttonClick]="deleteUser"></users-list>

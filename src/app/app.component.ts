@@ -9,22 +9,23 @@ import { User } from './user';
 })
 export class AppComponent implements OnInit{
   users: Array<User> = [];
-
-  constructor(){       
+  selectedUsers: Array<User> = [];
+  selectUser = (user: User) => this.swapUser(this.users, this.selectedUsers, user);
+  deleteUser = (user: User) => this.swapUser(this.selectedUsers, this.users, user);
+  
+  swapUser<T>(arr1: Array<T>, arr2: Array<T>, obj: T): void{
+    arr1.splice(arr1.indexOf(obj), 1);
+    arr2.push(obj); 
   }
-  ngOnInit() {  
-    console.log("id");
-    console.log(VKService.getId());
+
+  ngOnInit() {    
     VKService.getFriends(VKService.getId()).then( v => {
-      this.users = v;
-      console.log("friends");
-      console.log(v);
       this.users = v; 
     });
     VKService.getUsers(VKService.getId()).then( v => {
       this.users.push(v);
-      console.log("user");
-      console.log(v);
     });
   }
+
+
 }
