@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -96,32 +96,32 @@ var VKService = (function () {
     VKService.getSearch = function (query) {
         // let users: Array<any> = [
         //   {
-        //     first_name : "Артем",
+        //     first_name : "Артемка",
         //     last_name : "Матюшевский",
         //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
-        //     uid : 333423
+        //     uid : 3334231
         //   },
         //   {
-        //     first_name : "Nancy",
+        //     first_name : "Nancys",
         //     last_name : "Novikova",
         //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
-        //     uid : 1366377
+        //     uid : 13663772
         //   },
         //   {
         //     first_name : "Кайрат",
         //     last_name : "Сагинаев",
         //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
-        //     uid : 1442924
+        //     uid : 14429243
         //   },
         // ]
         return new Promise(function (resolve) {
-            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('users.search', {
                 q: query,
                 count: 5,
                 fields: "photo_50"
             }, function (r) {
-                resolve(r.response.slice(1).map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.id, v.first_name, v.last_name, v.photo_50); }));
+                resolve(r.response.slice(1).map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
             });
         });
     };
@@ -236,13 +236,7 @@ var AppComponent = (function () {
         this.users = [];
         this.possibleUsers = [];
         this.selectedUsers = [];
-        this.selectUser = function (user) {
-            __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(user.id).then(function (response) { return response.map(function (user) {
-                if (_this.users.findIndex(function (vUser) { return user.id == vUser.id; }) == -1)
-                    _this.users.push(user);
-            }); });
-            _this.swapUser(_this.users, _this.selectedUsers, user);
-        };
+        this.selectUser = function (user) { return _this.swapUser(_this.users, _this.selectedUsers, user); };
         this.deleteUser = function (user) { return _this.swapUser(_this.selectedUsers, _this.users, user); };
     }
     AppComponent.prototype.swapUser = function (arr1, arr2, obj) {
@@ -259,7 +253,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n        <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n        <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n      </div>\n    </div>\n  "
+            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [(users)]=\"users\" [selectUser]=\"selectUser\"></user-input></div>\n        <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n        <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n      </div>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -360,21 +354,26 @@ var FilterUsersPipe = (function () {
         var _this = this;
         this.onUpdate = false;
         this.transform = function (value, input) {
-            var st = input.toLowerCase();
-            var users = value.filter(function (v) {
-                return (v.id + '').toLowerCase().includes(st) ||
-                    (v.firstName + " " + v.lastName).toLowerCase().includes(st) ||
-                    (v.lastName + " " + v.firstName).toLowerCase().includes(st);
-            });
-            if (users.length == 0 && !_this.onUpdate) {
-                __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getSearch(input).then(function (response) { return response.map(function (user) {
-                    if (value.findIndex(function (vUser) { return user.id == vUser.id; }) == -1)
-                        value.push(user);
-                }); });
-                _this.onUpdate = true;
-                setTimeout(function () { return _this.onUpdate = false; }, 2500);
+            if (value.length > 0) {
+                var st_1 = input.toLowerCase();
+                var users = value.filter(function (v) {
+                    return (v.id + '').toLowerCase().includes(st_1) ||
+                        (v.firstName + " " + v.lastName).toLowerCase().includes(st_1) ||
+                        (v.lastName + " " + v.firstName).toLowerCase().includes(st_1);
+                });
+                if (users.length == 0 && !_this.onUpdate) {
+                    __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getSearch(input).then(function (response) { return response.map(function (user) {
+                        if (value.findIndex(function (vUser) { return user.id == vUser.id; }) == -1)
+                            value.push(user);
+                    }); });
+                    _this.onUpdate = true;
+                    setTimeout(function () { return _this.onUpdate = false; }, 2500);
+                }
+                return users;
             }
-            return users;
+            else {
+                return value;
+            }
         };
     }
     FilterUsersPipe = __decorate([
@@ -524,7 +523,7 @@ var UserInputComponent = (function () {
     UserInputComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'user-input',
-            template: "\n    <input type=\"text\" [(ngModel)]=\"inputString\"/>\n    <br/>\n    <users-list [users]=\"users | filterUsers : inputString\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n  "
+            template: "\n    <input type=\"text\" [(ngModel)]=\"inputString\"/>\n    <br/>\n    <users-list [users]=\"users  | sortUsers | filterUsers : inputString\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n  "
         }), 
         __metadata('design:paramtypes', [])
     ], UserInputComponent);

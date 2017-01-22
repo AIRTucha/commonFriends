@@ -6,7 +6,7 @@ import { User } from './user';
   template: `
     <input type="text" [(ngModel)]="inputString"/>
     <br/>
-    <users-list [users]="users | filterUsers : inputString" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>  
+    <users-list [users]="users  | sortUsers | filterUsers : inputString" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>  
   `
 })
 export class UserInputComponent {

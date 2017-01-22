@@ -5,9 +5,6 @@ declare var VK: any;
 
 @Injectable()
 export class VKService {
-
-  constructor() { }
-
     /**
      * @param - user id
      * @return - array of friends with brief data
@@ -34,7 +31,7 @@ export class VKService {
       //   },
       // ]
       return new Promise(resolve => 
-       // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+      //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('friends.get', {
             user_id: id, 
             order: "hint",
@@ -86,7 +83,7 @@ export class VKService {
               )
             );    
         })
-      );     
+       );     
     }
 
 
@@ -97,33 +94,33 @@ export class VKService {
     static getSearch(query: string): Promise<Array<User>>{
       // let users: Array<any> = [
       //   {
-      //     first_name : "Артем",
+      //     first_name : "Артемка",
       //     last_name : "Матюшевский",
       //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
-      //     uid : 333423
+      //     uid : 3334231
       //   },
       //   {
-      //     first_name : "Nancy",
+      //     first_name : "Nancys",
       //     last_name : "Novikova",
       //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
-      //     uid : 1366377
+      //     uid : 13663772
       //   },
       //   {
       //     first_name : "Кайрат",
       //     last_name : "Сагинаев",
       //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
-      //     uid : 1442924
+      //     uid : 14429243
       //   },
       // ]
       return new Promise(resolve => 
-        // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+        //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('users.search', {
             q: query, 
             count: 5,
             fields: "photo_50"
           }, 
           r => {
-            resolve(r.response.slice(1).map( v => new User(v.id, v.first_name, v.last_name, v.photo_50) )); 
+            resolve(r.response.slice(1).map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) )); 
           })
       );
     }    
