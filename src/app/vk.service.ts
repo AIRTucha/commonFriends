@@ -34,7 +34,7 @@ export class VKService {
       //   },
       // ]
       return new Promise(resolve => 
-    //    resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+       // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('friends.get', {
             user_id: id, 
             order: "hint",
@@ -116,7 +116,7 @@ export class VKService {
       //   },
       // ]
       return new Promise(resolve => 
-       // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+        // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('users.search', {
             q: query, 
             count: 5,

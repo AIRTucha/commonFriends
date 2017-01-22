@@ -18,10 +18,12 @@ export class FilterUsersPipe implements PipeTransform {
     );
     if (users.length == 0 && !this.onUpdate)
     {
-      console.log("i need more");
-      VKService.getSearch(input).then( response => value = value.concat(response));
+      VKService.getSearch(input).then( response => response.map( user => {
+        if (value.findIndex( vUser => user.id == vUser.id) == -1)
+          value.push(user);
+      }));
       this.onUpdate = true;
-      setTimeout(() => this.onUpdate=false, 5000 );
+      setTimeout(() => this.onUpdate = false, 2500);
     }
       
     return users;

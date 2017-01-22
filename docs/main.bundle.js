@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            //    resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -237,16 +237,18 @@ var AppComponent = (function () {
         this.possibleUsers = [];
         this.selectedUsers = [];
         this.selectUser = function (user) {
-            __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(user.id).then(function (responce) {
-                return _this.users = _this.users.concat(responce);
-            });
+            __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(user.id).then(function (response) { return response.map(function (user) {
+                if (_this.users.findIndex(function (vUser) { return user.id == vUser.id; }) == -1)
+                    _this.users.push(user);
+            }); });
             _this.swapUser(_this.users, _this.selectedUsers, user);
         };
         this.deleteUser = function (user) { return _this.swapUser(_this.selectedUsers, _this.users, user); };
     }
     AppComponent.prototype.swapUser = function (arr1, arr2, obj) {
         arr1.splice(arr1.indexOf(obj), 1);
-        arr2.push(obj);
+        if (arr2.findIndex(function (user) { return obj.id == user.id; }) == -1)
+            arr2.push(obj);
     };
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -257,7 +259,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: "\n    <div class=\"container-fluid\">\n    <div class=\"row\">\n      <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n      <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n      <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n    </div>\n    </div>\n  "
+            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n        <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n        <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n      </div>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -365,10 +367,12 @@ var FilterUsersPipe = (function () {
                     (v.lastName + " " + v.firstName).toLowerCase().includes(st);
             });
             if (users.length == 0 && !_this.onUpdate) {
-                console.log("i need more");
-                __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getSearch(input).then(function (response) { return value = value.concat(response); });
+                __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getSearch(input).then(function (response) { return response.map(function (user) {
+                    if (value.findIndex(function (vUser) { return user.id == vUser.id; }) == -1)
+                        value.push(user);
+                }); });
                 _this.onUpdate = true;
-                setTimeout(function () { return _this.onUpdate = false; }, 5000);
+                setTimeout(function () { return _this.onUpdate = false; }, 2500);
             }
             return users;
         };
