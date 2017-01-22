@@ -17,7 +17,6 @@ export class FriendsIntersectionComponent {
           (arr1, arr2) => arr1.filter( userArr1 => arr2.findIndex( userArr2 => userArr1.id == userArr2.id) != -1 ? true : false ) 
         )
     });
-    this.commonFriends = users;
   }
 
   getFriendsRecursively(users: Array<User>, callbakc:(friendsMatrix: Array<Array<User>>) => void  ){

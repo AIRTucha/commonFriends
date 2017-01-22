@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            //resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -364,7 +364,6 @@ var FriendsIntersectionComponent = (function () {
                 if (friendsMatrix.length > 0)
                     _this.commonFriends = friendsMatrix.reduce(function (arr1, arr2) { return arr1.filter(function (userArr1) { return arr2.findIndex(function (userArr2) { return userArr1.id == userArr2.id; }) != -1 ? true : false; }); });
             });
-            this.commonFriends = users;
         },
         enumerable: true,
         configurable: true
