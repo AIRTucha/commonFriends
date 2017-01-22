@@ -123,8 +123,7 @@ export class VKService {
             fields: "photo_50"
           }, 
           r => {
-            console.log(r);
-            resolve(r.response.items.map( v => new User(v.id, v.first_name, v.last_name, v.photo_50) )); 
+            resolve(r.response.slice(1).map( v => new User(v.id, v.first_name, v.last_name, v.photo_50) )); 
           })
       );
     }    
