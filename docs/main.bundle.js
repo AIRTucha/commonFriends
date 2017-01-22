@@ -200,7 +200,15 @@ var AppComponent = (function () {
         this.users = [];
         this.possibleUsers = [];
         this.selectedUsers = [];
-        this.selectUser = function (user) { return _this.swapUser(_this.users, _this.selectedUsers, user); };
+        this.selectUser = function (user) {
+            __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(user.id).then(function (users) {
+                return users.forEach(function (user) {
+                    if (_this.users.findIndex(function (v) { return user.id == v.id; }) == -1)
+                        _this.users.push(user);
+                });
+            });
+            _this.swapUser(_this.users, _this.selectedUsers, user);
+        };
         this.deleteUser = function (user) { return _this.swapUser(_this.selectedUsers, _this.users, user); };
     }
     AppComponent.prototype.swapUser = function (arr1, arr2, obj) {
