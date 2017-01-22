@@ -1,6 +1,6 @@
 webpackJsonp([0,3],{
 
-/***/ 198:
+/***/ 136:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            //    resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -86,6 +86,42 @@ var VKService = (function () {
                 fields: "photo_50"
             }, function (r) {
                 resolve(new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](r.response[0].uid, r.response[0].first_name, r.response[0].last_name, r.response[0].photo_50));
+            });
+        });
+    };
+    /**
+     * @param - user id
+     * @return - array of friends with brief data
+     */
+    VKService.getSearch = function (query) {
+        // let users: Array<any> = [
+        //   {
+        //     first_name : "Артем",
+        //     last_name : "Матюшевский",
+        //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
+        //     uid : 333423
+        //   },
+        //   {
+        //     first_name : "Nancy",
+        //     last_name : "Novikova",
+        //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
+        //     uid : 1366377
+        //   },
+        //   {
+        //     first_name : "Кайрат",
+        //     last_name : "Сагинаев",
+        //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
+        //     uid : 1442924
+        //   },
+        // ]
+        return new Promise(function (resolve) {
+            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            return VK.api('users.search', {
+                q: query,
+                count: 5,
+                fields: "photo_50"
+            }, function (r) {
+                resolve(r.response.items.map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.id, v.first_name, v.last_name, v.photo_50); }));
             });
         });
     };
@@ -181,7 +217,7 @@ var ActiveUsersListComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(136);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -201,11 +237,8 @@ var AppComponent = (function () {
         this.possibleUsers = [];
         this.selectedUsers = [];
         this.selectUser = function (user) {
-            __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(user.id).then(function (users) {
-                return users.forEach(function (user) {
-                    if (_this.users.findIndex(function (v) { return user.id == v.id; }) == -1)
-                        _this.users.push(user);
-                });
+            __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(user.id).then(function (responce) {
+                return _this.users = _this.users.concat(responce);
             });
             _this.swapUser(_this.users, _this.selectedUsers, user);
         };
@@ -238,12 +271,12 @@ var AppComponent = (function () {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(191);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(419);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(425);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(450);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vk_service__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vk_service__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_input_component__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__friends_intersection_component__ = __webpack_require__(453);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__active_users_list_component__ = __webpack_require__(449);
@@ -307,6 +340,7 @@ var AppModule = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(136);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return FilterUsersPipe; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -318,15 +352,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var FilterUsersPipe = (function () {
     function FilterUsersPipe() {
-        this.transform = function (value, input) { return (function (st) {
-            return value.filter(function (v) {
+        var _this = this;
+        this.onUpdate = false;
+        this.transform = function (value, input) {
+            var st = input.toLowerCase();
+            var users = value.filter(function (v) {
                 return (v.id + '').toLowerCase().includes(st) ||
                     (v.firstName + " " + v.lastName).toLowerCase().includes(st) ||
                     (v.lastName + " " + v.firstName).toLowerCase().includes(st);
             });
-        })(input.toLowerCase()); };
+            if (users.length == 0 && !_this.onUpdate) {
+                console.log("i need more");
+                __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getSearch(input).then(function (response) { return value = value.concat(response); });
+                _this.onUpdate = true;
+                setTimeout(function () { return _this.onUpdate = false; }, 5000);
+            }
+            return users;
+        };
     }
     FilterUsersPipe = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["J" /* Pipe */])({
@@ -346,7 +391,7 @@ var FilterUsersPipe = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(136);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return FriendsIntersectionComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

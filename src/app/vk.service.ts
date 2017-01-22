@@ -34,7 +34,7 @@ export class VKService {
       //   },
       // ]
       return new Promise(resolve => 
-      //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+    //    resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('friends.get', {
             user_id: id, 
             order: "hint",
@@ -86,7 +86,45 @@ export class VKService {
               )
             );    
         })
-      );
-     
+      );     
     }
+
+
+    /**
+     * @param - user id
+     * @return - array of friends with brief data
+     */
+    static getSearch(query: string): Promise<Array<User>>{
+      // let users: Array<any> = [
+      //   {
+      //     first_name : "Артем",
+      //     last_name : "Матюшевский",
+      //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
+      //     uid : 333423
+      //   },
+      //   {
+      //     first_name : "Nancy",
+      //     last_name : "Novikova",
+      //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
+      //     uid : 1366377
+      //   },
+      //   {
+      //     first_name : "Кайрат",
+      //     last_name : "Сагинаев",
+      //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
+      //     uid : 1442924
+      //   },
+      // ]
+      return new Promise(resolve => 
+       // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+        VK.api('users.search', {
+            q: query, 
+            count: 5,
+            fields: "photo_50"
+          }, 
+          r => {
+            resolve(r.response.items.map( v => new User(v.id, v.first_name, v.last_name, v.photo_50) )); 
+          })
+      );
+    }    
 }

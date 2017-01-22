@@ -21,14 +21,11 @@ export class AppComponent implements OnInit{
   selectedUsers : Array<User> = [];
 
   selectUser = (user: User) => {
-    VKService.getFriends(user.id).then( users => 
-      users.forEach( user => {
-        if(this.users.findIndex( v => user.id == v.id ) == -1)
-          this.users.push(user);
-      })
-    );    
+    VKService.getFriends(user.id).then( responce =>
+      this.users = this.users.concat(responce)
+    );
     this.swapUser(this.users, this.selectedUsers, user);
-  }
+  }  
   deleteUser = (user: User) => this.swapUser(this.selectedUsers, this.users, user);
   
   swapUser<T>(arr1: Array<T>, arr2: Array<T>, obj: T): void {
