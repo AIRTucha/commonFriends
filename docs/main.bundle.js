@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            //resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -166,7 +166,7 @@ var ActiveUsersListComponent = (function () {
     ActiveUsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'active-users-list',
-            template: __webpack_require__(612)
+            template: "\n    <users-list [users]=users iconClass=\"glyphicon glyphicon-remove\" [buttonClick]=\"deleteUser\"></users-list>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], ActiveUsersListComponent);
@@ -212,14 +212,11 @@ var AppComponent = (function () {
         __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(__WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getId()).then(function (v) {
             _this.users = v;
         });
-        __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getUsers(__WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getId()).then(function (v) {
-            _this.users.push(v);
-        });
     };
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: __webpack_require__(613)
+            template: "\n    <div class=\"container-fluid\">\n    <div class=\"row\">\n      <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n      <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n      <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n    </div>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -356,18 +353,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var FriendsIntersectionComponent = (function () {
     function FriendsIntersectionComponent() {
+        this.oldUsersLength = 0;
     }
-    Object.defineProperty(FriendsIntersectionComponent.prototype, "users", {
-        set: function (users) {
-            var _this = this;
-            this.getFriendsRecursively(users, function (friendsMatrix) {
-                if (friendsMatrix.length > 0)
-                    _this.commonFriends = friendsMatrix.reduce(function (arr1, arr2) { return arr1.filter(function (userArr1) { return arr2.findIndex(function (userArr2) { return userArr1.id == userArr2.id; }) != -1 ? true : false; }); });
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
+    FriendsIntersectionComponent.prototype.ngDoCheck = function () {
+        if (this.users.length != this.oldUsersLength) {
+            if (this.users.length > 1)
+                this.upDateCommonFriends();
+            else
+                this.commonFriends = [];
+            this.oldUsersLength = this.users.length;
+        }
+    };
+    FriendsIntersectionComponent.prototype.upDateCommonFriends = function () {
+        var _this = this;
+        this.getFriendsRecursively(this.users.slice(), function (friendsMatrix) {
+            if (friendsMatrix.length > 0)
+                _this.commonFriends = friendsMatrix.reduce(function (arr1, arr2) { return arr1.filter(function (userArr1) { return arr2.findIndex(function (userArr2) { return userArr1.id == userArr2.id; }) != -1 ? true : false; }); });
+        });
+    };
     FriendsIntersectionComponent.prototype.getFriendsRecursively = function (users, callbakc) {
         function getFriends(users, accum) {
             if (users.length > 0)
@@ -381,17 +384,12 @@ var FriendsIntersectionComponent = (function () {
     };
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Object), 
-        __metadata('design:paramtypes', [Object])
-    ], FriendsIntersectionComponent.prototype, "users", null);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Function)
-    ], FriendsIntersectionComponent.prototype, "updateFriends", void 0);
+        __metadata('design:type', Object)
+    ], FriendsIntersectionComponent.prototype, "users", void 0);
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',
-            template: __webpack_require__(614)
+            template: '<users-list [users]=commonFriends></users-list>'
         }), 
         __metadata('design:paramtypes', [])
     ], FriendsIntersectionComponent);
@@ -469,7 +467,7 @@ var UserInputComponent = (function () {
     UserInputComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'user-input',
-            template: __webpack_require__(615)
+            template: "\n    <input type=\"text\" [(ngModel)]=\"inputString\"/>\n    <br/>\n    <users-list [users]=\"users | filterUsers : inputString\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n  "
         }), 
         __metadata('design:paramtypes', [])
     ], UserInputComponent);
@@ -531,7 +529,7 @@ var UsersListComponent = (function () {
     UsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'users-list',
-            template: __webpack_require__(616)
+            template: "\n    <div *ngFor=\"let user of users\">\n      <img src=\"{{user.photoUrl}}\"/>\n      <span>{{user.firstName + \" \" + user.lastName}}</span>\n      <span class=\"{{iconClass}}\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], UsersListComponent);
@@ -591,7 +589,7 @@ var environment = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__ = __webpack_require__(474);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__(628);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__(623);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__);
 
 
@@ -613,42 +611,7 @@ var environment = {
 
 /***/ },
 
-/***/ 612:
-/***/ function(module, exports) {
-
-module.exports = "<users-list [users]=users iconClass=\"glyphicon glyphicon-remove\" [buttonClick]=\"deleteUser\"></users-list>"
-
-/***/ },
-
-/***/ 613:
-/***/ function(module, exports) {
-
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n    <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n    <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n  </div>\n</div>\n"
-
-/***/ },
-
-/***/ 614:
-/***/ function(module, exports) {
-
-module.exports = "<users-list [users]=commonFriends></users-list>"
-
-/***/ },
-
-/***/ 615:
-/***/ function(module, exports) {
-
-module.exports = "<input type=\"text\" [(ngModel)]=\"inputString\"/>\n<br/>\n<users-list [users]=\"users | filterUsers : inputString\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>"
-
-/***/ },
-
-/***/ 616:
-/***/ function(module, exports) {
-
-module.exports = "<div *ngFor=\"let user of users\">\n    <img src=\"{{user.photoUrl}}\"/>\n    <span>{{user.firstName + \" \" + user.lastName}}</span>\n    <span class=\"{{iconClass}}\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span>\n</div>\n"
-
-/***/ },
-
-/***/ 629:
+/***/ 624:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(340);
@@ -656,5 +619,5 @@ module.exports = __webpack_require__(340);
 
 /***/ }
 
-},[629]);
+},[624]);
 //# sourceMappingURL=main.bundle.map

@@ -3,7 +3,11 @@ import { User } from './user';
 
 @Component({
   selector: 'user-input',
-  templateUrl: './user-input.component.html'
+  template: `
+    <input type="text" [(ngModel)]="inputString"/>
+    <br/>
+    <users-list [users]="users | filterUsers : inputString" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>  
+  `
 })
 export class UserInputComponent {
   @Input() users   : Array<User>;

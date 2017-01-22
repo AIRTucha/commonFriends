@@ -3,7 +3,9 @@ import { User } from './user';
 
 @Component({
   selector: 'active-users-list',
-  templateUrl: './active-users-list.component.html'
+  template: `
+    <users-list [users]=users iconClass="glyphicon glyphicon-remove" [buttonClick]="deleteUser"></users-list>
+  `
 })
 export class ActiveUsersListComponent{
   @Input() users : Array<User>;

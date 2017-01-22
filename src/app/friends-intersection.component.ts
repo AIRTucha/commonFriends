@@ -1,22 +1,33 @@
-import { Input, Component } from '@angular/core';
+import { Input, Component, DoCheck, OnChanges } from '@angular/core';
 
 import { VKService } from './vk.service';
 import { User } from './user';
 
 @Component({
   selector: 'friends-intersection',
-  templateUrl: './friends-intersection.component.html'
+  template: '<users-list [users]=commonFriends></users-list>'
 })
-export class FriendsIntersectionComponent {
-
+export class FriendsIntersectionComponent implements DoCheck {
   @Input()
-  set users(users: Array<User>) {
-    this.getFriendsRecursively(users, (friendsMatrix) => {
-      if (friendsMatrix.length > 0)
-        this.commonFriends = friendsMatrix.reduce( 
-          (arr1, arr2) => arr1.filter( userArr1 => arr2.findIndex( userArr2 => userArr1.id == userArr2.id) != -1 ? true : false ) 
-        )
-    });
+  users: Array<User>;
+
+  ngDoCheck () {
+    if(this.users.length != this.oldUsersLength) {
+      if (this.users.length > 1)           
+        this.upDateCommonFriends();           
+      else
+        this.commonFriends = [];     
+      this.oldUsersLength = this.users.length;
+    }         
+  }   
+
+  upDateCommonFriends() {
+      this.getFriendsRecursively(this.users.slice(), (friendsMatrix) => {
+        if (friendsMatrix.length > 0)
+          this.commonFriends = friendsMatrix.reduce( 
+            (arr1, arr2) => arr1.filter( userArr1 => arr2.findIndex( userArr2 => userArr1.id == userArr2.id) != -1 ? true : false ) 
+          )
+      });
   }
 
   getFriendsRecursively(users: Array<User>, callbakc:(friendsMatrix: Array<Array<User>>) => void  ){
@@ -31,7 +42,7 @@ export class FriendsIntersectionComponent {
     }
     getFriends(users, []);
   }
-  @Input() updateFriends: () => void;
-  commonFriends: Array<User>;
 
+  commonFriends: Array<User>;
+  oldUsersLength = 0;
 }
