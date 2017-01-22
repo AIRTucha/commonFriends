@@ -121,6 +121,7 @@ var VKService = (function () {
                 count: 5,
                 fields: "photo_50"
             }, function (r) {
+                console.log(r);
                 resolve(r.response.items.map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.id, v.first_name, v.last_name, v.photo_50); }));
             });
         });
