@@ -8,16 +8,15 @@ import { User } from './user';
   template: `
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-4" style="background-color:lavender;"><user-input [(users)]="users" [selectUser]="selectUser"></user-input></div>
-        <div class="col-sm-4" style="background-color:lavenderblush;"><friends-intersection [users]=selectedUsers></friends-intersection></div>
-        <div class="col-sm-4" style="background-color:lavender;"><active-users-list [users]=selectedUsers [deleteUser]="deleteUser"></active-users-list></div>
+        <div class="col-sm-4"><user-input [(users)]="users" [selectUser]="selectUser"></user-input></div>
+        <div class="col-sm-4"><friends-intersection [users]=selectedUsers></friends-intersection></div>
+        <div class="col-sm-4"><active-users-list [users]=selectedUsers [deleteUser]="deleteUser"></active-users-list></div>
       </div>
     </div>
   `
 })
 export class AppComponent implements OnInit{
   users         : Array<User> = [];
-  possibleUsers : Array<User> = [];
   selectedUsers : Array<User> = [];
 
   selectUser = (user: User) => this.swapUser(this.users, this.selectedUsers, user);

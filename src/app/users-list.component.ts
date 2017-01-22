@@ -5,8 +5,10 @@ import { User } from "./user";
   selector: 'users-list',
   template: `
     <div *ngFor="let user of users">
+      <a href="http://vk.com/id{{user.id}}">
       <img src="{{user.photoUrl}}"/>
       <span>{{user.firstName + " " + user.lastName}}</span>
+      </a>
       <span class="{{iconClass}}" aria-hidden="true" (click)="buttonClick(user)"></span>
     </div>
   `
