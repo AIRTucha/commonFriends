@@ -1,6 +1,6 @@
 webpackJsonp([0,3],{
 
-/***/ 297:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            //resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -181,7 +181,7 @@ var ActiveUsersListComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(198);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -238,7 +238,7 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(419);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(425);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(450);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vk_service__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__vk_service__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_input_component__ = __webpack_require__(455);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__friends_intersection_component__ = __webpack_require__(453);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__active_users_list_component__ = __webpack_require__(449);
@@ -341,6 +341,7 @@ var FilterUsersPipe = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__vk_service__ = __webpack_require__(198);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return FriendsIntersectionComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -352,9 +353,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var FriendsIntersectionComponent = (function () {
     function FriendsIntersectionComponent() {
     }
+    Object.defineProperty(FriendsIntersectionComponent.prototype, "users", {
+        set: function (users) {
+            var _this = this;
+            this.getFriendsRecursively(users, function (friendsMatrix) {
+                if (friendsMatrix.length > 0)
+                    _this.commonFriends = friendsMatrix.reduce(function (arr1, arr2) { return arr1.filter(function (userArr1) { return arr2.findIndex(function (userArr2) { return userArr1.id == userArr2.id; }) != -1 ? true : false; }); });
+            });
+            this.commonFriends = users;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FriendsIntersectionComponent.prototype.getFriendsRecursively = function (users, callbakc) {
+        function getFriends(users, accum) {
+            if (users.length > 0)
+                __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(users.shift().id).then(function (response) {
+                    getFriends(users, accum.concat([response]));
+                });
+            else
+                callbakc(accum);
+        }
+        getFriends(users, []);
+    };
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
+        __metadata('design:type', Object), 
+        __metadata('design:paramtypes', [Object])
+    ], FriendsIntersectionComponent.prototype, "users", null);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
+        __metadata('design:type', Function)
+    ], FriendsIntersectionComponent.prototype, "updateFriends", void 0);
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',
@@ -590,14 +624,14 @@ module.exports = "<users-list [users]=users iconClass=\"glyphicon glyphicon-remo
 /***/ 613:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n    <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection></friends-intersection></div>\n    <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\">\n    <div class=\"col-sm-4\" style=\"background-color:lavender;\"><user-input [users]=\"users | sortUsers\" [selectUser]=\"selectUser\"></user-input></div>\n    <div class=\"col-sm-4\" style=\"background-color:lavenderblush;\"><friends-intersection [users]=selectedUsers></friends-intersection></div>\n    <div class=\"col-sm-4\" style=\"background-color:lavender;\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n  </div>\n</div>\n"
 
 /***/ },
 
 /***/ 614:
 /***/ function(module, exports) {
 
-module.exports = "<p>\n  friends-intersection works!\n</p>\n"
+module.exports = "<users-list [users]=commonFriends></users-list>"
 
 /***/ },
 
