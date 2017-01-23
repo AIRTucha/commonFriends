@@ -47,7 +47,7 @@ var VKService = (function () {
         //   },
         // ]
         return new Promise(function (resolve) {
-            // resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -521,7 +521,10 @@ var UserInputComponent = (function () {
     UserInputComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'user-input',
-            template: "\n    <input type=\"text\" [(ngModel)]=\"inputString\" (keyup)=searchUsers(inputString)/>\n    <br/>\n    <users-list [users]=\"users  | sortUsers | filterUsers : inputString.toLowerCase()\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list> \n    <br/>\n    <users-list [users]=\"searchResult\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n  "
+            template: "\n    <input type=\"text\" class=input [(ngModel)]=\"inputString\" (keyup)=searchUsers(inputString)/>\n    <br/>\n    <div class=\"users-list\">\n      <users-list [users]=\"users  | sortUsers | filterUsers : inputString.toLowerCase()\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list> \n      <users-list [users]=\"searchResult\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n    </div>\n  ",
+            styles: [
+                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      float: left;\n      overflow-y: hidden;\n    }\n    .users-list:hover{\n      overflow-y: auto;\n    }\n    \n    .input {\n      width: 100%;\n    }\n    \n    "
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], UserInputComponent);
@@ -583,7 +586,10 @@ var UsersListComponent = (function () {
     UsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'users-list',
-            template: "\n    <div *ngFor=\"let user of users\">\n      <a href=\"http://vk.com/id{{user.id}}\">\n      <img src=\"{{user.photoUrl}}\"/>\n      <span>{{user.firstName + \" \" + user.lastName}}</span>\n      </a>\n      <span class=\"{{iconClass}}\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span>\n    </div>\n  "
+            template: "\n    <table style=\"width:100%\">\n      <tr class=user *ngFor=\"let user of users\" >\n        <th>\n          <a href=\"http://vk.com/id{{user.id}}\">\n            <img src=\"{{user.photoUrl}}\"/>\n            <span class=name>{{\" \" + user.firstName + \" \" + user.lastName}}</span>\n          </a>\n        </th>\n        <th><span class=\"{{iconClass}}\" style=\"cursor: pointer\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span></th>\n      </tr> \n    </table>   \n  ",
+            styles: [
+                "\n    .user{\n      width: 100%;      \n    }\n    .user:hover{\n      background-color: #FCFDFF;\n    }      \n    }\n    a{ \n       text-decoration:none; \n    }\n    "
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], UsersListComponent);

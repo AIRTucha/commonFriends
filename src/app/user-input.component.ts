@@ -6,12 +6,43 @@ import { VKService } from './vk.service';
 @Component({
   selector: 'user-input',
   template: `
-    <input type="text" [(ngModel)]="inputString" (keyup)=searchUsers(inputString)/>
+    <input type="text" class=input [(ngModel)]="inputString" (keyup)=searchUsers(inputString)/>
     <br/>
-    <users-list [users]="users  | sortUsers | filterUsers : inputString.toLowerCase()" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list> 
-    <br/>
-    <users-list [users]="searchResult" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>  
-  `
+    <div class="users-list">
+      <users-list [users]="users  | sortUsers | filterUsers : inputString.toLowerCase()" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list> 
+      <users-list [users]="searchResult" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>  
+    </div>
+  `,
+  styles: [
+    `
+    .users-list::-webkit-scrollbar
+    {
+      width: 6px;
+      background-color: #FFFFFF;
+    }
+
+    .users-list::-webkit-scrollbar-thumb
+    {
+      border-radius: 3px;
+      background-color: #E8F4FF;
+      opacity: 0.25;
+    }
+
+    .users-list{
+      width: 100%;
+      float: left;
+      overflow-y: hidden;
+    }
+    .users-list:hover{
+      overflow-y: auto;
+    }
+    
+    .input {
+      width: 100%;
+    }
+    
+    `
+  ]
 })
 export class UserInputComponent {
   @Input() users   : Array<User>;

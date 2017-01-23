@@ -4,14 +4,32 @@ import { User } from "./user";
 @Component({
   selector: 'users-list',
   template: `
-    <div *ngFor="let user of users">
-      <a href="http://vk.com/id{{user.id}}">
-      <img src="{{user.photoUrl}}"/>
-      <span>{{user.firstName + " " + user.lastName}}</span>
-      </a>
-      <span class="{{iconClass}}" aria-hidden="true" (click)="buttonClick(user)"></span>
-    </div>
-  `
+    <table style="width:100%">
+      <tr class=user *ngFor="let user of users" >
+        <th>
+          <a href="http://vk.com/id{{user.id}}">
+            <img src="{{user.photoUrl}}"/>
+            <span class=name>{{" " + user.firstName + " " + user.lastName}}</span>
+          </a>
+        </th>
+        <th><span class="{{iconClass}}" style="cursor: pointer" aria-hidden="true" (click)="buttonClick(user)"></span></th>
+      </tr> 
+    </table>   
+  `,
+  styles: [
+    `
+    .user{
+      width: 100%;      
+    }
+    .user:hover{
+      background-color: #FCFDFF;
+    }      
+    }
+    a{ 
+       text-decoration:none; 
+    }
+    `
+  ]
 })
 export class UsersListComponent {
   @Input() users      : Array<User>;
