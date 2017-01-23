@@ -7,7 +7,7 @@ import { User } from "./user";
     <table style="width:100%">
       <tr class=user *ngFor="let user of users" >
         <th>
-          <a href="http://vk.com/id{{user.id}}">
+          <a target="_blank" href="http://vk.com/id{{user.id}}">
             <img src="{{user.photoUrl}}"/>
             <span class=name>{{" " + user.firstName + " " + user.lastName}}</span>
           </a>
