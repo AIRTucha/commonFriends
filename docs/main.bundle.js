@@ -202,7 +202,10 @@ var ActiveUsersListComponent = (function () {
     ActiveUsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'active-users-list',
-            template: "\n    <users-list [users]=users iconClass=\"glyphicon glyphicon-remove\" [buttonClick]=\"deleteUser\"></users-list>\n  "
+            template: "\n    <users-list [users]=users class=\"users-list\" iconClass=\"glyphicon glyphicon-remove\" [buttonClick]=\"deleteUser\"></users-list>\n  ",
+            styles: [
+                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 1500px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], ActiveUsersListComponent);
@@ -423,7 +426,10 @@ var FriendsIntersectionComponent = (function () {
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',
-            template: '<users-list [users]=commonFriends></users-list>'
+            template: '<users-list class="users-list" [users]=commonFriends></users-list>',
+            styles: [
+                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 1500px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], FriendsIntersectionComponent);
@@ -523,7 +529,7 @@ var UserInputComponent = (function () {
             selector: 'user-input',
             template: "\n    <input type=\"text\" class=input [(ngModel)]=\"inputString\" (keyup)=searchUsers(inputString)/>\n    <br/>\n    <div class=\"users-list\">\n      <users-list [users]=\"users  | sortUsers | filterUsers : inputString.toLowerCase()\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list> \n      <users-list [users]=\"searchResult\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n    </div>\n  ",
             styles: [
-                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      float: left;\n      overflow-y: hidden;\n    }\n    .users-list:hover{\n      overflow-y: auto;\n    }\n    \n    .input {\n      width: 100%;\n    }\n    \n    "
+                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 1500px;\n      float: left;\n      overflow-y: hidden;\n    }\n    .users-list:hover{\n      overflow-y: auto;\n    }\n\n    .input {\n      width: 100%;\n    }\n    \n    "
             ]
         }), 
         __metadata('design:paramtypes', [])

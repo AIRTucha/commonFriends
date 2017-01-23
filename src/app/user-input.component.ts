@@ -30,13 +30,14 @@ import { VKService } from './vk.service';
 
     .users-list{
       width: 100%;
+      height: 1500px;
       float: left;
       overflow-y: hidden;
     }
     .users-list:hover{
       overflow-y: auto;
     }
-    
+
     .input {
       width: 100%;
     }
