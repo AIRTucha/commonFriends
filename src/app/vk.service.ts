@@ -47,7 +47,7 @@ export class VKService {
      * @param - current user id
      */
     static getId(): string {
-      return"1";//window.location.href.split('&').find((v) => v.includes('viewer_id')).split('=')[1];
+      return window.location.href.split('&').find((v) => v.includes('viewer_id')).split('=')[1];
     }
 
     /**
@@ -116,7 +116,7 @@ export class VKService {
         //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
         VK.api('users.search', {
             q: query, 
-            count: 5,
+            count: 10,
             fields: "photo_50"
           }, 
           r => {

@@ -61,7 +61,7 @@ var VKService = (function () {
      * @param - current user id
      */
     VKService.getId = function () {
-        return "1"; //window.location.href.split('&').find((v) => v.includes('viewer_id')).split('=')[1];
+        return window.location.href.split('&').find(function (v) { return v.includes('viewer_id'); }).split('=')[1];
     };
     /**
      * @param - user id
@@ -118,7 +118,7 @@ var VKService = (function () {
             //  resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('users.search', {
                 q: query,
-                count: 5,
+                count: 10,
                 fields: "photo_50"
             }, function (r) {
                 resolve(r.response.slice(1).map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
