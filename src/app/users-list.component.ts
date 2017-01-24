@@ -19,7 +19,7 @@ import { User } from "./user";
   styles: [
     `
     .user{
-      width: 100%;      
+      width: 80%;      
     }
     .user:hover{
       background-color: #FCFDFF;

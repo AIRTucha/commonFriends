@@ -30,7 +30,7 @@ import { VKService } from './vk.service';
 
     .users-list{
       width: 100%;
-      height: 900px;
+      height: 100%;
       float: left;
       overflow-y: hidden;
     }
