@@ -430,7 +430,7 @@ var FriendsIntersectionComponent = (function () {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
         __metadata('design:type', Function)
-    ], FriendsIntersectionComponent.prototype, "addtUser", void 0);
+    ], FriendsIntersectionComponent.prototype, "addUser", void 0);
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',

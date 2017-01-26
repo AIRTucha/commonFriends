@@ -34,7 +34,7 @@ import { User } from './user';
 })
 export class FriendsIntersectionComponent implements DoCheck {
   @Input() users: Array<User>;
-  @Input() addtUser : (user: User) => void; 
+  @Input() addUser : (user: User) => void; 
 
   ngDoCheck () {
     if(this.users.length != this.oldUsersLength) {
