@@ -23,7 +23,7 @@ import { User } from './user';
 
     .users-list{
       width: 100%;
-      height: 100%;
+      height: 750px;
       float: left;
       overflow-y: hidden;
     }    

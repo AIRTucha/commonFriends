@@ -5,7 +5,7 @@ import { User } from './user';
 
 @Component({
   selector: 'friends-intersection',
-  template: '<users-list class="users-list" [users]=commonFriends></users-list>',
+  template: '<users-list class="users-list" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser" [users]=commonFriends></users-list>',
   styles: [
     `
     .users-list::-webkit-scrollbar
@@ -23,7 +23,7 @@ import { User } from './user';
 
     .users-list{
       width: 100%;
-      height: 100%;
+      height: 750px;
       float: left;
       overflow-y: hidden;
     }    
@@ -34,8 +34,8 @@ import { User } from './user';
   ]
 })
 export class FriendsIntersectionComponent implements DoCheck {
-  @Input()
-  users: Array<User>;
+  @Input() users: Array<User>;
+  @Input() selectUser : (user: User) => void; 
 
   ngDoCheck () {
     if(this.users.length != this.oldUsersLength) {
