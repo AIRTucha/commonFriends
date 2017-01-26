@@ -26,35 +26,42 @@ var VKService = (function () {
      * @return - array of friends with brief data
      */
     VKService.getFriends = function (id) {
-        var users = [
-            {
-                first_name: "Артем",
-                last_name: "Матюшевский",
-                photo_50: "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
-                uid: 333423
-            },
-            {
-                first_name: "Nancy",
-                last_name: "Novikova",
-                photo_50: "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
-                uid: 1366377
-            },
-            {
-                first_name: "Кайрат",
-                last_name: "Сагинаев",
-                photo_50: "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
-                uid: 1442924
-            },
-        ];
+        // let users: Array<any> = [
+        //   {
+        //     first_name : "Артем",
+        //     last_name : "Матюшевский",
+        //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
+        //     uid : 333423
+        //   },
+        //   {
+        //     first_name : "Nancy",
+        //     last_name : "Novikova",
+        //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
+        //     uid : 1366377
+        //   },
+        //   {
+        //     first_name : "Кайрат",
+        //     last_name : "Сагинаев",
+        //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
+        //     uid : 1442924
+        //   },
+        // ]
         return new Promise(function (resolve) {
-            return resolve(users.map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
+            //   resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            return VK.api('friends.get', {
+                user_id: id,
+                order: "hint",
+                fields: "photo_50"
+            }, function (r) {
+                resolve(r.response.map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
+            });
         });
     };
     /**
      * @param - current user id
      */
     VKService.getId = function () {
-        return "1"; //window.location.href.split('&').find((v) => v.includes('viewer_id')).split('=')[1];
+        return window.location.href.split('&').find(function (v) { return v.includes('viewer_id'); }).split('=')[1];
     };
     /**
      * @param - user id
@@ -68,11 +75,18 @@ var VKService = (function () {
      */
     VKService.getUsers = function (id) {
         return new Promise(function (resolve) {
-            return resolve(new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */]("TestId", //r.response[0].uid, 
-            "TestName", //r.response[0].first_name, 
-            "TestLastMame", // r.response[0].last_name, 
-            "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg" //r.response[0].photo_50
-            ));
+            // resolve( new User(
+            //         "TestId",//r.response[0].uid, 
+            //         "TestName",//r.response[0].first_name, 
+            //         "TestLastMame",// r.response[0].last_name, 
+            //         "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg"//r.response[0].photo_50
+            //         ))   
+            return VK.api('users.get', {
+                user_ids: id,
+                fields: "photo_50"
+            }, function (r) {
+                resolve(new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](r.response[0].uid, r.response[0].first_name, r.response[0].last_name, r.response[0].photo_50));
+            });
         });
     };
     /**
@@ -80,28 +94,35 @@ var VKService = (function () {
      * @return - array of friends with brief data
      */
     VKService.getSearch = function (query) {
-        var users = [
-            {
-                first_name: "Артемка",
-                last_name: "Матюшевский",
-                photo_50: "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
-                uid: 3334231
-            },
-            {
-                first_name: "Nancys",
-                last_name: "Novikova",
-                photo_50: "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
-                uid: 13663772
-            },
-            {
-                first_name: "Кайрат",
-                last_name: "Сагинаев",
-                photo_50: "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
-                uid: 14429243
-            },
-        ];
+        // let users: Array<any> = [
+        //   {
+        //     first_name : "Артемка",
+        //     last_name : "Матюшевский",
+        //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
+        //     uid : 3334231
+        //   },
+        //   {
+        //     first_name : "Nancys",
+        //     last_name : "Novikova",
+        //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
+        //     uid : 13663772
+        //   },
+        //   {
+        //     first_name : "Кайрат",
+        //     last_name : "Сагинаев",
+        //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
+        //     uid : 14429243
+        //   },
+        // ]
         return new Promise(function (resolve) {
-            return resolve(users.map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
+            //         resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
+            return VK.api('users.search', {
+                q: query,
+                count: 10,
+                fields: "photo_50"
+            }, function (r) {
+                resolve(r.response.slice(1).map(function (v) { return new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */](v.uid, v.first_name, v.last_name, v.photo_50); }));
+            });
         });
     };
     VKService = __decorate([
@@ -219,6 +240,10 @@ var AppComponent = (function () {
         this.selectedUsers = [];
         this.selectUser = function (user) { return _this.swapUser(_this.users, _this.selectedUsers, user); };
         this.deleteUser = function (user) { return _this.swapUser(_this.selectedUsers, _this.users, user); };
+        this.addUser = function (user) {
+            if (_this.selectedUsers.findIndex(function (selectedUser) { return selectedUser.id == user.id; }) == -1)
+                _this.selectedUsers.push(user);
+        };
     }
     AppComponent.prototype.swapUser = function (arr1, arr2, obj) {
         arr1.splice(arr1.indexOf(obj), 1);
@@ -234,7 +259,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <div class=\"col-sm-4\"><user-input [(users)]=\"users\" [selectUser]=\"selectUser\"></user-input></div>\n        <div class=\"col-sm-4\"><friends-intersection [selectUser]=\"selectUser\" [users]=selectedUsers></friends-intersection></div>\n        <div class=\"col-sm-4\"><active-users-list [users]=selectedUsers [deleteUser]=\"deleteUser\"></active-users-list></div>\n      </div>\n    </div>\n  "
+            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <user-input class=\"col-sm-4\"           [users]=\"users\"         [selectUser]=\"selectUser\" ></user-input>\n        <friends-intersection class=\"col-sm-4\" [users]=\"selectedUsers\" [addUser]=\"addUser\"    ></friends-intersection>\n        <active-users-list class=\"col-sm-4\"    [users]=\"selectedUsers\" [deleteUser]=\"deleteUser\" ></active-users-list>\n      </div>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -405,13 +430,13 @@ var FriendsIntersectionComponent = (function () {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
         __metadata('design:type', Function)
-    ], FriendsIntersectionComponent.prototype, "selectUser", void 0);
+    ], FriendsIntersectionComponent.prototype, "addtUser", void 0);
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',
-            template: '<users-list class="users-list" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser" [users]=commonFriends></users-list>',
+            template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="selectUser" [users]=commonFriends></users-list>',
             styles: [
-                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
+                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -575,9 +600,9 @@ var UsersListComponent = (function () {
     UsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'users-list',
-            template: "\n    <table style=\"width:100%\">\n      <tr class=user *ngFor=\"let user of users\" >\n        <th>\n          <a target=\"_blank\" href=\"http://vk.com/id{{user.id}}\">\n            <img src=\"{{user.photoUrl}}\"/>\n            <span class=name>{{\" \" + user.firstName + \" \" + user.lastName}}</span>\n          </a>\n        </th>\n        <th><span class=\"{{iconClass}}\" style=\"cursor: pointer\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span></th>\n      </tr> \n    </table>   \n  ",
+            template: "\n    <table class=\"usersTable\">\n      <tr class=\"user\" *ngFor=\"let user of users\" >\n        <th>\n          <a target=\"_blank\" href=\"http://vk.com/id{{user.id}}\">\n            <img src=\"{{user.photoUrl}}\"/>\n            <span class=name>{{\" \" + user.firstName + \" \" + user.lastName}}</span>\n          </a>\n        </th>\n        <th><span class=\"{{iconClass}}\" style=\"cursor: pointer\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span></th>\n      </tr> \n    </table>   \n  ",
             styles: [
-                "\n    .user{\n      width: 80%;      \n    }\n    .user:hover{\n      background-color: #FCFDFF;\n    }      \n    }\n    a{ \n       text-decoration:none; \n    }\n    "
+                "\n      .usersTable{\n        width: 95%;\n        margin-left: 2.5%;\n      }\n      .user:hover{\n        background-color: #EDF3FF;\n      }   \n      a{ \n        text-decoration:none; \n      }\n    "
             ]
         }), 
         __metadata('design:paramtypes', [])

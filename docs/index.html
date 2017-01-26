@@ -10,19 +10,39 @@
 
   <!--vk api-->
   <script src="https://vk.com/js/api/xd_connection.js?2"  type="text/javascript"></script>
-
+  <!--d3-->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
   <!--Bootstrap-->
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-  <!-- Optional theme -->
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-
-  <!-- Latest compiled and minified JavaScript -->
-  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
-
 <link href="styles.bundle.css" rel="stylesheet"></head>
 <body>
-  <app-root>Loading...</app-root>
+  <app-root>
+    </div><div style="width:100%" id="loading"><div id="loadingRect"/><div>
+      <script>
+        window.onload = function() {
+          try{
+           var rect = d3.select("#loadingRect")
+            .style("position", "absolute")
+            .style("left", "-200px")
+            .style("width", "150px")
+            .style("height", "15px")
+            .style("background-color", "#EDF3FF")
+            .style("border-radius", "15px");
+
+            loadingAnimation (-250, document.getElementById("loading").offsetWidth);
+          } catch (e) { }        
+          function loadingAnimation (start, end){
+            rect.transition()
+              .duration(1000)
+              .style("left", end + 50 + "px")
+              .on("end", function(){
+                loadingAnimation (end, start);
+              });
+          }     
+        }
+   </script>
+  </app-root>
+
 <script type="text/javascript" src="inline.bundle.js"></script><script type="text/javascript" src="vendor.bundle.js"></script><script type="text/javascript" src="main.bundle.js"></script></body>
 </html>

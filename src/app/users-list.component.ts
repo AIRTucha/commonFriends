@@ -4,8 +4,8 @@ import { User } from "./user";
 @Component({
   selector: 'users-list',
   template: `
-    <table style="width:100%">
-      <tr class=user *ngFor="let user of users" >
+    <table class="usersTable">
+      <tr class="user" *ngFor="let user of users" >
         <th>
           <a target="_blank" href="http://vk.com/id{{user.id}}">
             <img src="{{user.photoUrl}}"/>
@@ -18,16 +18,16 @@ import { User } from "./user";
   `,
   styles: [
     `
-    .user{
-      width: 80%;      
-    }
-    .user:hover{
-      background-color: #FCFDFF;
-    }      
-    }
-    a{ 
-       text-decoration:none; 
-    }
+      .usersTable{
+        width: 95%;
+        margin-left: 2.5%;
+      }
+      .user:hover{
+        background-color: #EDF3FF;
+      }   
+      a{ 
+        text-decoration:none; 
+      }
     `
   ]
 })
