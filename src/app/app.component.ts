@@ -9,7 +9,7 @@ import { User } from './user';
     <div class="container-fluid">
       <div class="row">
         <user-input class="col-sm-4"           [users]="users"         [selectUser]="selectUser" ></user-input>
-        <friends-intersection class="col-sm-4" [users]="selectedUsers" [addUser]="addUser"    ></friends-intersection>
+        <friends-intersection class="col-sm-4" [users]="selectedUsers" [addUser]="addUser"       ></friends-intersection>
         <active-users-list class="col-sm-4"    [users]="selectedUsers" [deleteUser]="deleteUser" ></active-users-list>
       </div>
     </div>

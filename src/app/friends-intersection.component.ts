@@ -5,7 +5,7 @@ import { User } from './user';
 
 @Component({
   selector: 'friends-intersection',
-  template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="selectUser" [users]=commonFriends></users-list>',
+  template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="addUser" [users]=commonFriends></users-list>',
   styles: [
     `
     .users-list::-webkit-scrollbar

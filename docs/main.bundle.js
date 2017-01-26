@@ -259,7 +259,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <user-input class=\"col-sm-4\"           [users]=\"users\"         [selectUser]=\"selectUser\" ></user-input>\n        <friends-intersection class=\"col-sm-4\" [users]=\"selectedUsers\" [addUser]=\"addUser\"    ></friends-intersection>\n        <active-users-list class=\"col-sm-4\"    [users]=\"selectedUsers\" [deleteUser]=\"deleteUser\" ></active-users-list>\n      </div>\n    </div>\n  "
+            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <user-input class=\"col-sm-4\"           [users]=\"users\"         [selectUser]=\"selectUser\" ></user-input>\n        <friends-intersection class=\"col-sm-4\" [users]=\"selectedUsers\" [addUser]=\"addUser\"       ></friends-intersection>\n        <active-users-list class=\"col-sm-4\"    [users]=\"selectedUsers\" [deleteUser]=\"deleteUser\" ></active-users-list>\n      </div>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -434,7 +434,7 @@ var FriendsIntersectionComponent = (function () {
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',
-            template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="selectUser" [users]=commonFriends></users-list>',
+            template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="addUser" [users]=commonFriends></users-list>',
             styles: [
                 "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
             ]
