@@ -8,24 +8,33 @@ import { User } from './user';
   template: `
     <div class="container-fluid">
       <div class="row">
-        <user-input class="col-sm-4"           [users]="users"         [selectUser]="selectUser" ></user-input>
-        <friends-intersection class="col-sm-4" [users]="selectedUsers" [addUser]="addUser"       ></friends-intersection>
-        <active-users-list class="col-sm-4"    [users]="selectedUsers" [deleteUser]="deleteUser" ></active-users-list>
+        <user-input           class="col-sm-4" [users]="users"           (selectUser)="selectUser($event)"  ></user-input>
+        <active-users-list    class="col-sm-4" [users]="selectedUsers"   (deleteUser)="deleteUser($event)"  ></active-users-list>
+        <friends-intersection class="col-sm-4" [(users)]="users"         [(selectedUsers)]="selectedUsers"  ></friends-intersection>
       </div>
     </div>
   `
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   users         : Array<User> = [];
   selectedUsers : Array<User> = [];
 
+  /**
+   * Move user to the Array of seletec users
+   * @param - User to select
+   */
   selectUser = (user: User) => this.swapUser(this.users, this.selectedUsers, user);
+  /**
+   * Move user to the main Array
+   * @param - User to move
+   */
   deleteUser = (user: User) => this.swapUser(this.selectedUsers, this.users, user);
-  addUser = (user: User) => {
-      if (this.selectedUsers.findIndex( selectedUser => selectedUser.id == user.id) == -1)
-        this.selectedUsers.push(user); 
-  }
 
+  /**
+   * @param - source Array
+   * @param - target Array
+   * @param - User which should be swaped
+   */
   swapUser(arr1: Array<User>, arr2: Array<User>, obj: User): void {
     arr1.splice(arr1.indexOf(obj), 1);
     if (arr2.findIndex( user => obj.id == user.id) == -1)
@@ -33,6 +42,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {    
+    //requests friends of the user
     VKService.getFriends(VKService.getId()).then( v => {
       this.users = v; 
     });

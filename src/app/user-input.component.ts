@@ -1,6 +1,6 @@
-import { Input, Component } from '@angular/core';
-import { User } from './user';
+import { Input, Component, Output, EventEmitter } from '@angular/core';
 
+import { User } from './user';
 import { VKService } from './vk.service';
 
 @Component({
@@ -9,12 +9,19 @@ import { VKService } from './vk.service';
     <input type="text" class=input [(ngModel)]="inputString" (keyup)=searchUsers(inputString)/>
     <br/>
     <div class="users-list">
-      <users-list [users]="users  | sortUsers | filterUsers : inputString.toLowerCase()" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list> 
-      <users-list [users]="searchResult" iconClass ="glyphicon glyphicon-menu-right" [buttonClick]="selectUser"></users-list>  
+      <users-list 
+        [users]="users  | sortUsers | filterUsers : inputString.toLowerCase()" 
+        iconClass ="glyphicon glyphicon-plus" 
+        (buttonClick)="selectUser.emit($event)">
+      </users-list> 
+      <users-list 
+        [users]="searchResult" 
+        iconClass ="glyphicon glyphicon-plus" 
+        (buttonClick)="selectUser.emit($event)">
+      </users-list>  
     </div>
   `,
-  styles: [
-    `
+  styles: [`
     .users-list::-webkit-scrollbar
     {
       width: 6px;
@@ -42,19 +49,23 @@ import { VKService } from './vk.service';
       width: 100%;
     }
     
-    `
-  ]
+  `]
 })
 export class UserInputComponent {
-  @Input() users   : Array<User>;
-  @Input() selectUser : (user: User) => void; 
-  @Input() onInput : (id: string) => void;
+  @Input() 
+  users   : Array<User>;
+  @Output() 
+  selectUser = new EventEmitter(); 
 
   searchResult : Array<User> = [];
   onUpdate = false;
   inputString: string = "";
 
-  searchUsers(input: string){
+  /**
+   * Handles global search in VK based on input string
+   * @param - input
+   */
+  searchUsers(input: string) {
     if (input.length > 0) {
       if (!this.onUpdate) {
         VKService.getSearch(input).then( response => 

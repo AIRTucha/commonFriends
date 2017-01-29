@@ -26,28 +26,7 @@ var VKService = (function () {
      * @return - array of friends with brief data
      */
     VKService.getFriends = function (id) {
-        // let users: Array<any> = [
-        //   {
-        //     first_name : "Артем",
-        //     last_name : "Матюшевский",
-        //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
-        //     uid : 333423
-        //   },
-        //   {
-        //     first_name : "Nancy",
-        //     last_name : "Novikova",
-        //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
-        //     uid : 1366377
-        //   },
-        //   {
-        //     first_name : "Кайрат",
-        //     last_name : "Сагинаев",
-        //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
-        //     uid : 1442924
-        //   },
-        // ]
         return new Promise(function (resolve) {
-            //   resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('friends.get', {
                 user_id: id,
                 order: "hint",
@@ -65,22 +44,10 @@ var VKService = (function () {
     };
     /**
      * @param - user id
-     * @return - user information
-     * {
-        id: string,
-        first_name: string,
-        last_name: string,
-        photo_50: string_url
-      }
+     * @return - user
      */
     VKService.getUsers = function (id) {
         return new Promise(function (resolve) {
-            // resolve( new User(
-            //         "TestId",//r.response[0].uid, 
-            //         "TestName",//r.response[0].first_name, 
-            //         "TestLastMame",// r.response[0].last_name, 
-            //         "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg"//r.response[0].photo_50
-            //         ))   
             return VK.api('users.get', {
                 user_ids: id,
                 fields: "photo_50"
@@ -91,31 +58,10 @@ var VKService = (function () {
     };
     /**
      * @param - user id
-     * @return - array of friends with brief data
+     * @return - array of users
      */
     VKService.getSearch = function (query) {
-        // let users: Array<any> = [
-        //   {
-        //     first_name : "Артемка",
-        //     last_name : "Матюшевский",
-        //     photo_50 : "https://pp.vk.me/c837327/v837327423/13f3e/k6AH4m_xU4g.jpg",
-        //     uid : 3334231
-        //   },
-        //   {
-        //     first_name : "Nancys",
-        //     last_name : "Novikova",
-        //     photo_50 : "https://pp.vk.me/c626522/v626522377/20bc4/Q1CAaYRscKk.jpg",
-        //     uid : 13663772
-        //   },
-        //   {
-        //     first_name : "Кайрат",
-        //     last_name : "Сагинаев",
-        //     photo_50 : "https://pp.vk.me/c626231/v626231924/46c7f/rhs6iaW_ChY.jpg",
-        //     uid : 14429243
-        //   },
-        // ]
         return new Promise(function (resolve) {
-            //         resolve( users.map( v => new User(v.uid, v.first_name, v.last_name, v.photo_50) ))
             return VK.api('users.search', {
                 q: query,
                 count: 10,
@@ -190,22 +136,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var ActiveUsersListComponent = (function () {
     function ActiveUsersListComponent() {
+        this.deleteUser = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_20" /* EventEmitter */]();
     }
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
         __metadata('design:type', Object)
     ], ActiveUsersListComponent.prototype, "users", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Function)
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Output */])(), 
+        __metadata('design:type', Object)
     ], ActiveUsersListComponent.prototype, "deleteUser", void 0);
     ActiveUsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'active-users-list',
-            template: "\n    <users-list [users]=users class=\"users-list\" iconClass=\"glyphicon glyphicon-remove\" [buttonClick]=\"deleteUser\"></users-list>\n  ",
-            styles: [
-                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
-            ]
+            template: "\n    <h4>\u0412\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u0435:</h4>\n    <users-list \n      class=\"users-list\"\n      iconClass=\"glyphicon glyphicon-minus\"\n      [users]=users \n      (buttonClick)=\"deleteUser.emit($event)\">\n    </users-list>\n  ",
+            styles: ["\n    h4{\n      color: #337ab7;\n    }\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n  "]
         }), 
         __metadata('design:paramtypes', [])
     ], ActiveUsersListComponent);
@@ -238,13 +183,22 @@ var AppComponent = (function () {
         var _this = this;
         this.users = [];
         this.selectedUsers = [];
+        /**
+         * Move user to the Array of seletec users
+         * @param - User to select
+         */
         this.selectUser = function (user) { return _this.swapUser(_this.users, _this.selectedUsers, user); };
+        /**
+         * Move user to the main Array
+         * @param - User to move
+         */
         this.deleteUser = function (user) { return _this.swapUser(_this.selectedUsers, _this.users, user); };
-        this.addUser = function (user) {
-            if (_this.selectedUsers.findIndex(function (selectedUser) { return selectedUser.id == user.id; }) == -1)
-                _this.selectedUsers.push(user);
-        };
     }
+    /**
+     * @param - source Array
+     * @param - target Array
+     * @param - User which should be swaped
+     */
     AppComponent.prototype.swapUser = function (arr1, arr2, obj) {
         arr1.splice(arr1.indexOf(obj), 1);
         if (arr2.findIndex(function (user) { return obj.id == user.id; }) == -1)
@@ -252,6 +206,7 @@ var AppComponent = (function () {
     };
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //requests friends of the user
         __WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getFriends(__WEBPACK_IMPORTED_MODULE_1__vk_service__["a" /* VKService */].getId()).then(function (v) {
             _this.users = v;
         });
@@ -259,7 +214,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <user-input class=\"col-sm-4\"           [users]=\"users\"         [selectUser]=\"selectUser\" ></user-input>\n        <friends-intersection class=\"col-sm-4\" [users]=\"selectedUsers\" [addUser]=\"addUser\"       ></friends-intersection>\n        <active-users-list class=\"col-sm-4\"    [users]=\"selectedUsers\" [deleteUser]=\"deleteUser\" ></active-users-list>\n      </div>\n    </div>\n  "
+            template: "\n    <div class=\"container-fluid\">\n      <div class=\"row\">\n        <user-input           class=\"col-sm-4\" [users]=\"users\"           (selectUser)=\"selectUser($event)\"  ></user-input>\n        <active-users-list    class=\"col-sm-4\" [users]=\"selectedUsers\"   (deleteUser)=\"deleteUser($event)\"  ></active-users-list>\n        <friends-intersection class=\"col-sm-4\" [(users)]=\"users\"         [(selectedUsers)]=\"selectedUsers\"  ></friends-intersection>\n      </div>\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);
@@ -394,24 +349,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var FriendsIntersectionComponent = (function () {
     function FriendsIntersectionComponent() {
+        var _this = this;
         this.oldUsersLength = 0;
+        /**
+         * Add user to the Array of selected users
+         * Remove user from the main Array if needed
+         * @param - User
+         */
+        this.addUser = function (user) {
+            if (_this.users.findIndex(function (v) { return (v.id == user.id); }) != -1)
+                _this.users.splice(_this.users.indexOf(user), 1);
+            if (_this.selectedUsers.findIndex(function (selectedUser) { return selectedUser.id == user.id; }) == -1)
+                _this.selectedUsers.push(user);
+        };
     }
     FriendsIntersectionComponent.prototype.ngDoCheck = function () {
-        if (this.users.length != this.oldUsersLength) {
-            if (this.users.length > 1)
+        //check if array length is changed
+        if (this.selectedUsers.length != this.oldUsersLength) {
+            if (this.selectedUsers.length > 1)
                 this.upDateCommonFriends();
             else
                 this.commonFriends = [];
-            this.oldUsersLength = this.users.length;
+            this.oldUsersLength = this.selectedUsers.length;
         }
     };
+    /**
+     * Requests friends and identifes commun ones
+     */
     FriendsIntersectionComponent.prototype.upDateCommonFriends = function () {
         var _this = this;
-        this.getFriendsRecursively(this.users.slice(), function (friendsMatrix) {
+        this.getFriendsRecursively(this.selectedUsers.slice(), function (friendsMatrix) {
             if (friendsMatrix.length > 0)
                 _this.commonFriends = friendsMatrix.reduce(function (arr1, arr2) { return arr1.filter(function (userArr1) { return arr2.findIndex(function (userArr2) { return userArr1.id == userArr2.id; }) != -1 ? true : false; }); });
         });
     };
+    /**
+     * Recursively load User friends and
+     * push the two dimensoanal array to callbakc
+     * @param - Array of users which friends have to be requested
+     * @param - Function for processing of the "friends' matrix"
+     */
     FriendsIntersectionComponent.prototype.getFriendsRecursively = function (users, callbakc) {
         function getFriends(users, accum) {
             if (users.length > 0)
@@ -429,15 +406,13 @@ var FriendsIntersectionComponent = (function () {
     ], FriendsIntersectionComponent.prototype, "users", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Function)
-    ], FriendsIntersectionComponent.prototype, "addUser", void 0);
+        __metadata('design:type', Object)
+    ], FriendsIntersectionComponent.prototype, "selectedUsers", void 0);
     FriendsIntersectionComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'friends-intersection',
-            template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="addUser" [users]=commonFriends></users-list>',
-            styles: [
-                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n    "
-            ]
+            template: "\n    <h4>\u041E\u0431\u0449\u0438\u0435:</h4>\n    <users-list \n      class=\"users-list\" \n      iconClass=\"glyphicon glyphicon-plus\"\n      [users]=commonFriends \n      (buttonClick)=\"addUser($event)\">\n    </users-list>'\n  ",
+            styles: ["\n    h4{\n      color: #337ab7;\n    }\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }    \n    .users-list:hover{\n      overflow-y: auto;\n    }    \n  "]
         }), 
         __metadata('design:paramtypes', [])
     ], FriendsIntersectionComponent);
@@ -500,10 +475,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var UserInputComponent = (function () {
     function UserInputComponent() {
+        this.selectUser = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_20" /* EventEmitter */]();
         this.searchResult = [];
         this.onUpdate = false;
         this.inputString = "";
     }
+    /**
+     * Handles global search in VK based on input string
+     * @param - input
+     */
     UserInputComponent.prototype.searchUsers = function (input) {
         var _this = this;
         if (input.length > 0) {
@@ -525,20 +505,14 @@ var UserInputComponent = (function () {
         __metadata('design:type', Object)
     ], UserInputComponent.prototype, "users", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Function)
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Output */])(), 
+        __metadata('design:type', Object)
     ], UserInputComponent.prototype, "selectUser", void 0);
-    __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Function)
-    ], UserInputComponent.prototype, "onInput", void 0);
     UserInputComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'user-input',
-            template: "\n    <input type=\"text\" class=input [(ngModel)]=\"inputString\" (keyup)=searchUsers(inputString)/>\n    <br/>\n    <div class=\"users-list\">\n      <users-list [users]=\"users  | sortUsers | filterUsers : inputString.toLowerCase()\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list> \n      <users-list [users]=\"searchResult\" iconClass =\"glyphicon glyphicon-menu-right\" [buttonClick]=\"selectUser\"></users-list>  \n    </div>\n  ",
-            styles: [
-                "\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }\n    .users-list:hover{\n      overflow-y: auto;\n    }\n\n    .input {\n      width: 100%;\n    }\n    \n    "
-            ]
+            template: "\n    <input type=\"text\" class=input [(ngModel)]=\"inputString\" (keyup)=searchUsers(inputString)/>\n    <br/>\n    <div class=\"users-list\">\n      <users-list \n        [users]=\"users  | sortUsers | filterUsers : inputString.toLowerCase()\" \n        iconClass =\"glyphicon glyphicon-plus\" \n        (buttonClick)=\"selectUser.emit($event)\">\n      </users-list> \n      <users-list \n        [users]=\"searchResult\" \n        iconClass =\"glyphicon glyphicon-plus\" \n        (buttonClick)=\"selectUser.emit($event)\">\n      </users-list>  \n    </div>\n  ",
+            styles: ["\n    .users-list::-webkit-scrollbar\n    {\n      width: 6px;\n      background-color: #FFFFFF;\n    }\n\n    .users-list::-webkit-scrollbar-thumb\n    {\n      border-radius: 3px;\n      background-color: #E8F4FF;\n      opacity: 0.25;\n    }\n\n    .users-list{\n      width: 100%;\n      height: 750px;\n      float: left;\n      overflow-y: hidden;\n    }\n    .users-list:hover{\n      overflow-y: auto;\n    }\n\n    .input {\n      width: 100%;\n    }\n    \n  "]
         }), 
         __metadata('design:paramtypes', [])
     ], UserInputComponent);
@@ -584,6 +558,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var UsersListComponent = (function () {
     function UsersListComponent() {
+        this.buttonClick = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["_20" /* EventEmitter */]();
     }
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
@@ -594,16 +569,14 @@ var UsersListComponent = (function () {
         __metadata('design:type', String)
     ], UsersListComponent.prototype, "iconClass", void 0);
     __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Input */])(), 
-        __metadata('design:type', Function)
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Output */])(), 
+        __metadata('design:type', Object)
     ], UsersListComponent.prototype, "buttonClick", void 0);
     UsersListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'users-list',
-            template: "\n    <table class=\"usersTable\">\n      <tr class=\"user\" *ngFor=\"let user of users\" >\n        <th>\n          <a target=\"_blank\" href=\"http://vk.com/id{{user.id}}\">\n            <img src=\"{{user.photoUrl}}\"/>\n            <span class=name>{{\" \" + user.firstName + \" \" + user.lastName}}</span>\n          </a>\n        </th>\n        <th><span class=\"{{iconClass}}\" style=\"cursor: pointer\" aria-hidden=\"true\" (click)=\"buttonClick(user)\"></span></th>\n      </tr> \n    </table>   \n  ",
-            styles: [
-                "\n      .usersTable{\n        width: 95%;\n        margin-left: 2.5%;\n      }\n      .user:hover{\n        background-color: #EDF3FF;\n      }   \n      a{ \n        text-decoration:none; \n      }\n    "
-            ]
+            template: "\n    <table class=\"usersTable\">\n      <tr class=\"user\" *ngFor=\"let user of users\" >\n        <th>\n          <a target=\"_blank\" href=\"http://vk.com/id{{user.id}}\">\n            <img src=\"{{user.photoUrl}}\"/>\n            <span class=name>{{\" \" + user.firstName + \" \" + user.lastName}}</span>\n          </a>\n        </th>\n        <th><span class=\"{{iconClass}}\" style=\"cursor: pointer\" aria-hidden=\"true\" (click)=\"buttonClick.emit(user)\"></span></th>\n      </tr> \n    </table>   \n  ",
+            styles: ["\n    .usersTable{\n      width: 95%;\n      margin-left: 2.5%;\n    }\n    .user:hover{\n      background-color: #EDF3FF;\n    }   \n    a{ \n      text-decoration:none; \n    }\n  "]
         }), 
         __metadata('design:paramtypes', [])
     ], UsersListComponent);

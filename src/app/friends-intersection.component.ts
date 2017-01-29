@@ -5,9 +5,19 @@ import { User } from './user';
 
 @Component({
   selector: 'friends-intersection',
-  template: '<users-list class="users-list" iconClass="glyphicon glyphicon-menu-right" [buttonClick]="addUser" [users]=commonFriends></users-list>',
-  styles: [
-    `
+  template: `
+    <h4>Общие:</h4>
+    <users-list 
+      class="users-list" 
+      iconClass="glyphicon glyphicon-plus"
+      [users]=commonFriends 
+      (buttonClick)="addUser($event)">
+    </users-list>'
+  `,
+  styles: [`
+    h4{
+      color: #337ab7;
+    }
     .users-list::-webkit-scrollbar
     {
       width: 6px;
@@ -29,32 +39,57 @@ import { User } from './user';
     .users-list:hover{
       overflow-y: auto;
     }    
-    `
-  ]
+  `]
 })
 export class FriendsIntersectionComponent implements DoCheck {
-  @Input() users: Array<User>;
-  @Input() addUser : (user: User) => void; 
+  @Input()
+  users: Array<User>;
+  @Input() 
+  selectedUsers: Array<User>;
 
+  commonFriends: Array<User>;
+  oldUsersLength = 0;
+
+  /**
+   * Add user to the Array of selected users
+   * Remove user from the main Array if needed
+   * @param - User
+   */
+  addUser = (user: User) => {
+      if ( this.users.findIndex( v => (v.id == user.id) ) != -1)
+        this.users.splice(this.users.indexOf(user), 1);
+        
+      if (this.selectedUsers.findIndex( selectedUser => selectedUser.id == user.id) == -1)
+        this.selectedUsers.push(user); 
+  }
+  
   ngDoCheck () {
-    if(this.users.length != this.oldUsersLength) {
-      if (this.users.length > 1)           
+    //check if array length is changed
+    if(this.selectedUsers.length != this.oldUsersLength) {
+      if (this.selectedUsers.length > 1)           
         this.upDateCommonFriends();           
       else
         this.commonFriends = [];     
-      this.oldUsersLength = this.users.length;
+      this.oldUsersLength = this.selectedUsers.length;
     }         
   }   
-
+  /**
+   * Requests friends and identifes commun ones
+   */
   upDateCommonFriends() {
-      this.getFriendsRecursively(this.users.slice(), (friendsMatrix) => {
+      this.getFriendsRecursively(this.selectedUsers.slice(), (friendsMatrix) => {
         if (friendsMatrix.length > 0)
           this.commonFriends = friendsMatrix.reduce( 
             (arr1, arr2) => arr1.filter( userArr1 => arr2.findIndex( userArr2 => userArr1.id == userArr2.id) != -1 ? true : false ) 
           )
       });
   }
-
+  /**
+   * Recursively load User friends and 
+   * push the two dimensoanal array to callbakc
+   * @param - Array of users which friends have to be requested
+   * @param - Function for processing of the "friends' matrix"
+   */
   getFriendsRecursively(users: Array<User>, callbakc:(friendsMatrix: Array<Array<User>>) => void  ){
     function getFriends(users: Array<User>, accum: Array<Array<User>>){
       if (users.length > 0)
@@ -67,7 +102,4 @@ export class FriendsIntersectionComponent implements DoCheck {
     }
     getFriends(users, []);
   }
-
-  commonFriends: Array<User>;
-  oldUsersLength = 0;
 }

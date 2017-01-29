@@ -1,13 +1,21 @@
-import { Input, Component, OnChanges} from '@angular/core';
+import { Input, Component, OnChanges, Output, EventEmitter } from '@angular/core';
 import { User } from './user';
 
 @Component({
   selector: 'active-users-list',
   template: `
-    <users-list [users]=users class="users-list" iconClass="glyphicon glyphicon-remove" [buttonClick]="deleteUser"></users-list>
+    <h4>Выбранные:</h4>
+    <users-list 
+      class="users-list"
+      iconClass="glyphicon glyphicon-minus"
+      [users]=users 
+      (buttonClick)="deleteUser.emit($event)">
+    </users-list>
   `,
-  styles: [
-    `
+  styles: [`
+    h4{
+      color: #337ab7;
+    }
     .users-list::-webkit-scrollbar
     {
       width: 6px;
@@ -30,10 +38,11 @@ import { User } from './user';
     .users-list:hover{
       overflow-y: auto;
     }    
-    `
-  ]
+  `]
 })
 export class ActiveUsersListComponent{
-  @Input() users : Array<User>;
-  @Input() deleteUser  : (user: User) => void;  
+  @Input() 
+  users : Array<User>;
+  @Output() 
+  deleteUser = new EventEmitter();  
 }

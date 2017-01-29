@@ -1,4 +1,4 @@
-import { Input, Component } from '@angular/core';
+import { Input, Component, Output, EventEmitter } from '@angular/core';
 import { User } from "./user";
 
 @Component({
@@ -12,27 +12,28 @@ import { User } from "./user";
             <span class=name>{{" " + user.firstName + " " + user.lastName}}</span>
           </a>
         </th>
-        <th><span class="{{iconClass}}" style="cursor: pointer" aria-hidden="true" (click)="buttonClick(user)"></span></th>
+        <th><span class="{{iconClass}}" style="cursor: pointer" aria-hidden="true" (click)="buttonClick.emit(user)"></span></th>
       </tr> 
     </table>   
   `,
-  styles: [
-    `
-      .usersTable{
-        width: 95%;
-        margin-left: 2.5%;
-      }
-      .user:hover{
-        background-color: #EDF3FF;
-      }   
-      a{ 
-        text-decoration:none; 
-      }
-    `
-  ]
+  styles: [`
+    .usersTable{
+      width: 95%;
+      margin-left: 2.5%;
+    }
+    .user:hover{
+      background-color: #EDF3FF;
+    }   
+    a{ 
+      text-decoration:none; 
+    }
+  `]
 })
 export class UsersListComponent {
-  @Input() users      : Array<User>;
-  @Input() iconClass  : string;
-  @Input() buttonClick: (user: User) => void;
+  @Input() 
+  users: Array<User>;
+  @Input() 
+  iconClass: string;
+  @Output()
+  buttonClick = new EventEmitter();
 }
